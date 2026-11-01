@@ -1,0 +1,21 @@
+{
+  "name": "lab-01-node-express",
+  "version": "1.0.0",
+  "description": "Backend Development Fundamentals Lab 01 - Node.js HTTP Server and Express REST API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:http": "node server-http.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "backend",
+    "lab-01"
+  ],
+  "author": "Rakesh Reddy (Registration: 252U1R8091, Section: CSE-QE-2B-S-13)",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
