@@ -1,0 +1,383 @@
+{
+  "info": {
+    "name": "BDF Lab 3 - Books API",
+    "description": "Complete Postman collection for BDF Lab 3: REST API, Query Parameters, Validation and Debugging.\nStudent: Rakesh Reddy | 252U1R8091 | Section: CSE-QE-2B-S-13 | College: Aurora",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 - Welcome / API Info",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/",
+        "description": "Returns API welcome message with all endpoints and student info."
+      }
+    },
+    {
+      "name": "02 - Get All Books (default)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/books",
+        "description": "Returns all books with default limit=10, offset=0, sorted by id ASC."
+      }
+    },
+    {
+      "name": "03 - Search Books by Title",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books?search_q=JavaScript",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "search_q", "value": "JavaScript" }
+          ]
+        },
+        "description": "Returns books whose title contains 'JavaScript'."
+      }
+    },
+    {
+      "name": "04 - Sort Books by Price ASC",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books?order_by=price&order=ASC",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "order_by", "value": "price" },
+            { "key": "order",    "value": "ASC"   }
+          ]
+        },
+        "description": "Returns all books sorted by price from lowest to highest."
+      }
+    },
+    {
+      "name": "05 - Sort Books by Price DESC",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books?order_by=price&order=DESC",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "order_by", "value": "price" },
+            { "key": "order",    "value": "DESC"  }
+          ]
+        },
+        "description": "Returns all books sorted by price from highest to lowest."
+      }
+    },
+    {
+      "name": "06 - Sort Books by Title ASC",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books?order_by=title&order=ASC",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "order_by", "value": "title" },
+            { "key": "order",    "value": "ASC"   }
+          ]
+        },
+        "description": "Returns all books sorted alphabetically by title."
+      }
+    },
+    {
+      "name": "07 - Pagination: limit=3, offset=0",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books?limit=3&offset=0",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "limit",  "value": "3" },
+            { "key": "offset", "value": "0" }
+          ]
+        },
+        "description": "Returns first 3 books (page 1)."
+      }
+    },
+    {
+      "name": "08 - Pagination: limit=3, offset=3",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books?limit=3&offset=3",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "limit",  "value": "3" },
+            { "key": "offset", "value": "3" }
+          ]
+        },
+        "description": "Returns next 3 books (page 2)."
+      }
+    },
+    {
+      "name": "09 - Filter by Price Range (500-800)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books?min_price=500&max_price=800",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "min_price", "value": "500" },
+            { "key": "max_price", "value": "800" }
+          ]
+        },
+        "description": "Returns books with price between 500 and 800."
+      }
+    },
+    {
+      "name": "10 - Combined: Search + Sort + Limit",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books?search_q=code&order_by=price&order=ASC&limit=5",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "search_q", "value": "code"  },
+            { "key": "order_by", "value": "price"  },
+            { "key": "order",    "value": "ASC"    },
+            { "key": "limit",    "value": "5"      }
+          ]
+        },
+        "description": "Search for books with 'code' in title, sorted by price ASC, limit 5."
+      }
+    },
+    {
+      "name": "11 - Get Single Book (ID 1)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/books/1",
+        "description": "Returns the book with ID 1 (Clean Code)."
+      }
+    },
+    {
+      "name": "12 - Get Single Book (ID 5)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/books/5",
+        "description": "Returns the book with ID 5 (Eloquent JavaScript)."
+      }
+    },
+    {
+      "name": "13 - Create New Book (with pages)",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/books",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Learning Node.js\",\n  \"author\": \"Marc Wandschneider\",\n  \"price\": 550,\n  \"pages\": 300\n}"
+        },
+        "description": "Creates a new book with all fields including pages. Returns 201 with created book."
+      }
+    },
+    {
+      "name": "14 - Create New Book (without pages - optional)",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/books",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Express.js Guide\",\n  \"author\": \"Test Author\",\n  \"price\": 400\n}"
+        },
+        "description": "Creates a new book without pages field (pages is optional in Lab 3). Returns 201."
+      }
+    },
+    {
+      "name": "15 - Update a Book (PUT)",
+      "request": {
+        "method": "PUT",
+        "url": "{{baseUrl}}/books/11",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Learning Node.js (Updated Edition)\",\n  \"author\": \"Marc Wandschneider\",\n  \"price\": 600,\n  \"pages\": 320\n}"
+        },
+        "description": "Updates book with ID 11. Returns 200 with updated book data."
+      }
+    },
+    {
+      "name": "16 - Delete a Book (DELETE)",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/books/11",
+        "description": "Deletes book with ID 11. Returns 200 with deleted book data."
+      }
+    },
+    {
+      "name": "17 - ERROR: Invalid order_by value",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books?order_by=invalid_column",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "order_by", "value": "invalid_column" }
+          ]
+        },
+        "description": "Should return 400 - order_by value not in whitelist."
+      }
+    },
+    {
+      "name": "18 - ERROR: Invalid order direction",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books?order=RANDOM",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "order", "value": "RANDOM" }
+          ]
+        },
+        "description": "Should return 400 - order must be ASC or DESC."
+      }
+    },
+    {
+      "name": "19 - ERROR: min_price greater than max_price",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books?min_price=900&max_price=500",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "min_price", "value": "900" },
+            { "key": "max_price", "value": "500" }
+          ]
+        },
+        "description": "Should return 400 - min_price cannot be greater than max_price."
+      }
+    },
+    {
+      "name": "20 - ERROR: Invalid bookId (not a number)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/books/abc",
+        "description": "Should return 400 - bookId must be a positive integer."
+      }
+    },
+    {
+      "name": "21 - ERROR: Book not found (404)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/books/9999",
+        "description": "Should return 404 - book with ID 9999 does not exist."
+      }
+    },
+    {
+      "name": "22 - ERROR: POST missing title",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/books",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"author\": \"Some Author\",\n  \"price\": 300\n}"
+        },
+        "description": "Should return 400 - title is required."
+      }
+    },
+    {
+      "name": "23 - ERROR: POST missing price",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/books",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Some Book\",\n  \"author\": \"Some Author\"\n}"
+        },
+        "description": "Should return 400 - price is required."
+      }
+    },
+    {
+      "name": "24 - ERROR: POST negative price",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/books",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Some Book\",\n  \"author\": \"Some Author\",\n  \"price\": -100\n}"
+        },
+        "description": "Should return 400 - price must be non-negative."
+      }
+    },
+    {
+      "name": "25 - ERROR: PUT book not found",
+      "request": {
+        "method": "PUT",
+        "url": "{{baseUrl}}/books/9999",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Updated Title\",\n  \"author\": \"Updated Author\",\n  \"price\": 500\n}"
+        },
+        "description": "Should return 404 - book with ID 9999 does not exist."
+      }
+    },
+    {
+      "name": "26 - ERROR: DELETE book not found",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/books/9999",
+        "description": "Should return 404 - book with ID 9999 does not exist."
+      }
+    },
+    {
+      "name": "27 - ERROR: Invalid limit value",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books?limit=200",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "limit", "value": "200" }
+          ]
+        },
+        "description": "Should return 400 - limit cannot exceed 100."
+      }
+    },
+    {
+      "name": "28 - ERROR: Undefined Route (404)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/unknown-route",
+        "description": "Should return 404 - route does not exist."
+      }
+    }
+  ]
+}

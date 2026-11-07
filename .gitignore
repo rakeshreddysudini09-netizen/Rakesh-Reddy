@@ -21,3 +21,8 @@ Thumbs.db
 
 # Database temporary files
 *.db-journal
+
+# Local Postman settings and backup files
+.postman/
+postman/
+ZIP LAP 2.zip
